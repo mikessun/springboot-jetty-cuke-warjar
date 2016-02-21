@@ -37,12 +37,13 @@
   </licenses>
   
   <properties>
+    <java.version>1.7</java.version>
     <junit.version>4.7</junit.version>
     <log4j.version>1.2.17</log4j.version>
     <slf4j.version>1.5.11</slf4j.version>
   
     <!-- The Cargo container type -->
-    <cargo.container.id>tomcat6x</cargo.container.id>
+    <cargo.container.id>jetty8x</cargo.container.id>
     <!-- The URL of the Zip file based installer for the container that Cargo is to deploy -->
     <cargo.container.url>https://archive.apache.org/dist/tomcat/tomcat-6/v6.0.32/bin/apache-tomcat-6.0.32.zip</cargo.container.url>
     <!-- The location where downloaded container Zip file installers are cached -->
@@ -72,6 +73,7 @@
 
   <modules>
     <module>app</module>
+    <module>acceptance</module>
   </modules>
   
   <dependencyManagement>
@@ -108,13 +110,14 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.5.1</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
         </configuration>
       </plugin>
       
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
+        <version>2.18</version>
         <executions>
           <execution>
             <id>verify</id>
@@ -132,16 +135,10 @@
         <plugin>
           <groupId>org.codehaus.cargo</groupId>
           <artifactId>cargo-maven2-plugin</artifactId>
-          <version>1.3.3</version>
           <configuration>
             <container>
               <containerId>${cargo.container.id}</containerId>
-              <zipUrlInstaller>
-                <url>${cargo.container.url}</url>
-                <downloadDir>${cargo.container.download.dir}</downloadDir>
-              </zipUrlInstaller>
-              <log>${project.build.directory}/cargo/logs/cargo.log</log>
-              <output>${project.build.directory}/cargo/logs/container.log</output>
+              <type>embedded</type>
             </container>
             <deployables>
               <deployable>

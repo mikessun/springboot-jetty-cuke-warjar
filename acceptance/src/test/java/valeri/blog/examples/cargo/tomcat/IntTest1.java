@@ -22,23 +22,33 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import org.junit.Test;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * A quick test to make sure the app is really deployed.
  *
  * @author David Valeri
  */
-public class SmokeIT {
+public class IntTest1 {
 
     @Test
     public void test() throws Exception {
-
-        String spec = "http://localhost:8080/cargo-tomcat-example-app/hello/mike";
-
-        RestTemplate restTemplate=new RestTemplate();
-
-        ResponseEntity responseEntity=restTemplate.getForEntity(spec,String.class);
+        
+        URL url = new URL("http://localhost:8080/cargo-tomcat-example-app/index.html");
+        
+        
+        BufferedReader in = new BufferedReader(new InputStreamReader(url
+                .openConnection().getInputStream()));
+        
+        String line = in.readLine();
+        
+        while (line != null) {
+            
+            if (line.contains("Welcome to the demo!")) {
+                return;
+            }
+            line = in.readLine();
+        }
+        
+        fail();
     }
 }
