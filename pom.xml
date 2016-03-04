@@ -50,7 +50,7 @@
         <!-- The location where downloaded container Zip file installers are cached -->
         <cargo.container.download.dir>${user.home}/.m2/cargo/containers</cargo.container.download.dir>
         <!-- The port used by the forked container -->
-        <cargo.container.port>8080</cargo.container.port>
+        <cargo.container.port>8280</cargo.container.port>
         <!-- When using Tomcat, the AJP connector listen port -->
         <cargo.container.tomcat.ajp.port>8009</cargo.container.tomcat.ajp.port>
         <!-- The RMI port used on the container.  For Tomcat, this is the value of the /Server/@port attribute. -->
@@ -58,7 +58,13 @@
         <!-- Optional JVM arguments for the forked container that are prepended to the option
              that configures the Zommons config location and appended to any debugging
              configuration set by cargo.container.jvmargs.debug (See cargo-debug profile.)-->
-        <cargo.container.jvmargs></cargo.container.jvmargs>
+        <cargo.container.jvmargs>
+            -Dcom.sun.management.jmxremote
+            -Dcom.sun.management.jmxremote.port=9010
+            -Dcom.sun.management.jmxremote.local.only=false
+            -Dcom.sun.management.jmxremote.authenticate=false
+            -Dcom.sun.management.jmxremote.ssl=false
+        </cargo.container.jvmargs>
         <!-- The port to use when the debugger is enabled. -->
         <cargo.container.debug.port>8000</cargo.container.debug.port>
         <!-- The suspend setting to use when the debugger is enabled. -->
@@ -155,7 +161,12 @@
                     <configuration>
                         <container>
                             <containerId>${cargo.container.id}</containerId>
-                            <type>embedded</type>
+                            <type>installed</type>
+                            <artifactInstaller>
+                                <groupId>org.eclipse.jetty</groupId>
+                                <artifactId>jetty-distribution</artifactId>
+                                <version>8.1.18.v20150929</version>
+                            </artifactInstaller>
                         </container>
                         <deployables>
                             <deployable>
@@ -183,12 +194,10 @@
                             <configuration>
                                 <configuration>
                                     <properties>
-                                        <cargo.jvmargs>
-                                            ${cargo.container.jvmargs.debug} -Xdebug -Xnoagent
-                                            -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n -Xms512m
-                                            -Xmx1024m -XX:MaxPermSize=256m -XX:+UseParNewGC -XX:+UseConcMarkSweepGC
+                                        <cargo.start.jvmargs>
+                                            ${cargo.container.jvmargs.debug}
                                             ${cargo.container.jvmargs}
-                                        </cargo.jvmargs>
+                                        </cargo.start.jvmargs>
                                         <cargo.servlet.port>${cargo.container.port}</cargo.servlet.port>
                                         <cargo.tomcat.ajp.port>${cargo.container.tomcat.ajp.port}
                                         </cargo.tomcat.ajp.port>
@@ -247,11 +256,12 @@
     <profiles>
         <profile>
             <id>cargo-debug</id>
-            <!--      <activation>
+                  <activation>
                     <property>
                       <name>cargo.debug</name>
+                        <value>true</value>
                     </property>
-                  </activation>-->
+                  </activation>
             <properties>
                 <cargo.container.jvmargs.debug>${cargo.container.debug.jvmargs}</cargo.container.jvmargs.debug>
             </properties>

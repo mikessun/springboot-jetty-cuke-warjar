@@ -1,6 +1,7 @@
 package valeri.blog.examples.cargo.tomcat;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,10 +21,12 @@ public class IntTest1 {
     @Test
     public void test() throws Exception {
 
-        String spec = "http://localhost:8080/acceptaance/hello/mike";
+        String spec = "http://localhost:8280/acceptaance/hello/mike";
 
         RestTemplate restTemplate=new RestTemplate();
 
         ResponseEntity responseEntity=restTemplate.getForEntity(spec, String.class);
+
+        assertTrue(responseEntity.getStatusCode().value()==200);
     }
 }
