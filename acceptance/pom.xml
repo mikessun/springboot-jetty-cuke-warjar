@@ -96,6 +96,7 @@
                                 <include>**/*Test1.java</include>
                                 <include>**/*CukesTest.java</include>
                             </includes>
+                            <argLine>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=6006</argLine>
                         </configuration>
                     </plugin>
                 </plugins>

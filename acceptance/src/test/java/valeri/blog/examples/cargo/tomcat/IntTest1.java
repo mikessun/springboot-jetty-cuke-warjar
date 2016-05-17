@@ -1,15 +1,10 @@
 package valeri.blog.examples.cargo.tomcat;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertThat;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * A quick test to make sure the app is really deployed.

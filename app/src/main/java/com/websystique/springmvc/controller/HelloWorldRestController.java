@@ -1,25 +1,23 @@
 package com.websystique.springmvc.controller;
 
 import com.websystique.springmvc.configuration.ExternalConfigComponent;
+import com.websystique.springmvc.domain.Message;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import com.websystique.springmvc.domain.Message;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
+import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Date;
 
 @RestController
@@ -31,7 +29,7 @@ public class HelloWorldRestController {
     @Autowired
     Environment env;
 
-    @RequestMapping("/hello/{player}")
+    @RequestMapping(value="/hello/{player}", method = RequestMethod.GET)
     public Message message(@PathVariable String player) {
         System.out.println(getMsg());
 
@@ -75,5 +73,10 @@ public class HelloWorldRestController {
 
     private String getMsg() {
         return new Date().toString();
+    }
+
+    @PostConstruct
+    public void postContruct(){
+        System.out.println("IN postContruct");
     }
 }

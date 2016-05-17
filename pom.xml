@@ -36,11 +36,17 @@
         </license>
     </licenses>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.2.2.RELEASE</version>
+    </parent>
+
     <properties>
         <java.version>1.7</java.version>
         <junit.version>4.7</junit.version>
         <log4j.version>1.2.17</log4j.version>
-        <slf4j.version>1.5.11</slf4j.version>
+      <!--  <slf4j.version>1.7.1</slf4j.version>-->
 
         <!-- The Cargo container type -->
         <cargo.container.id>jetty8x</cargo.container.id>
@@ -96,7 +102,7 @@
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
-            <dependency>
+<!--            <dependency>
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
                 <version>${log4j.version}</version>
@@ -106,13 +112,13 @@
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
-            </dependency>
-            <dependency>
+            </dependency>-->
+<!--            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>${slf4j.version}</version>
                 <scope>runtime</scope>
-            </dependency>
+            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
